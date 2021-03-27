@@ -72,7 +72,6 @@
 
 <script>
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
-// import FingerprintJS from '@fingerprintjs/fingerprintjs-pro'
 import { Button } from 'ant-design-vue';
 import {getFilters, getPosts} from "../api/auth";
 
@@ -125,10 +124,6 @@ export default {
       var perc = 100 * scrollPos / (docHeight - winHeight)
       console.log(perc);
     })
-
-    // FingerprintJS.load({token: 'AGKYboivuTURYfOXsIxP'})
-    //     .then(fp => fp.get())
-    //     .then(result => console.log(result.visitorId))
   }
 }
 </script>
