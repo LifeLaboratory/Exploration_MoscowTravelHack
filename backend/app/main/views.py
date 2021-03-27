@@ -75,6 +75,11 @@ def get_trips(request):
     return JsonResponse({'trips': trips_data})
 
 
+def get_event(request):
+    events_data = Provider('main/sql').exec_by_file('get_event.sql')
+    return JsonResponse({'events': events_data})
+
+
 def index(request):
     return render(request, 'index.html', {})
 

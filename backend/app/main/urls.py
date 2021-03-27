@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('filters/', views.get_filter, name='Получение списка фильтров'),
     path('posts/', views.get_places, name='Получение списка мест'),
+    path('event/', views.get_event, name='Получение события'),
 ]
