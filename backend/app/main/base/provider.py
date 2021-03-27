@@ -26,7 +26,6 @@ class Provider:
 
     @staticmethod
     def import_sql(sql_root, name):
-        print(BASE_DIR)
         with open(os.path.join(BASE_DIR, sql_root, name), encoding='utf-8', mode='r') as _fne:
             return _fne.read()
 
