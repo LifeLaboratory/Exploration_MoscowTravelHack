@@ -13,7 +13,7 @@ def get_filter(request):
     """
     data = {
         'orders': [
-            'Категория',
+            'category',
             'Вид туризма',
             'На расстоянии',
             'Избранные',
@@ -21,7 +21,7 @@ def get_filter(request):
             'Теги'
         ],
         'filters': {
-            'Категория': [
+            'category': [
                 'Ресторан',
                 'Памятник',
                 'Площадь'
@@ -48,7 +48,7 @@ def get_filter(request):
             ]
         },
         'default_filters': {
-            'Категория': [
+            'category': [
                 'Памятник'
             ],
             'Теги': [
@@ -69,42 +69,42 @@ def get_places(request):
     data = {
         'posts': [
             {
-                'Фото': 'data',
-                'Название': 'text',
-                'Категория': 'text',
-                'Оценка': 'text',
-                'Избрано': True
+                'photo': 'data',
+                'name': 'text',
+                'category': 'text',
+                'star': 'text',
+                'select': True
             },
             {
-                'Фото': 'data',
-                'Название': 'text',
-                'Категория': 'text',
-                'Оценка': 'text',
-                'Избрано': False
-            },
-
-            {
-                'Фото': 'data',
-                'Название': 'text',
-                'Категория': 'text',
-                'Оценка': 'text',
-                'Избрано': False
+                'photo': 'data',
+                'name': 'text',
+                'category': 'text',
+                'star': 'text',
+                'select': False
             },
 
             {
-                'Фото': 'data',
-                'Название': 'text',
-                'Категория': 'text',
-                'Оценка': 'text',
-                'Избрано': False
+                'photo': 'data',
+                'name': 'text',
+                'category': 'text',
+                'star': 'text',
+                'select': False
             },
 
             {
-                'Фото': 'data',
-                'Название': 'text',
-                'Категория': 'text',
-                'Оценка': 'text',
-                'Избрано': True
+                'photo': 'data',
+                'name': 'text',
+                'category': 'text',
+                'star': 'text',
+                'select': False
+            },
+
+            {
+                'photo': 'data',
+                'name': 'text',
+                'category': 'text',
+                'star': 'text',
+                'select': True
             }
         ]
     }
