@@ -22,6 +22,12 @@ group by places.id
 select
 places_info.*
 , array_to_json(tags.array_tags) "tags"
+, google_ratings.rating google_rating
 from
 places_info
 left join tags on tags.id = places_info.id
+left join google_ratings on places_info.id = google_ratings.id
+
+order by
+  google_rating desc -- По оценке мировой
+  , created_at desc  -- Даем свежие
