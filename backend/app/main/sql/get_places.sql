@@ -21,7 +21,7 @@ group by places.id
 )
 select
 places_info.*
-, array_to_json(tags.array_tags)
+, array_to_json(tags.array_tags) "tags"
 from
 places_info
 left join tags on tags.id = places_info.id
