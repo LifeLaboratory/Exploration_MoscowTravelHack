@@ -70,6 +70,11 @@ def get_places(request):
     return JsonResponse({'posts': posts_data})
 
 
+def get_trips(request):
+    trips_data = Provider('main/sql').exec_by_file('get_trips.sql')
+    return JsonResponse({'trips': trips_data})
+
+
 def index(request):
     return render(request, 'index.html', {})
 
