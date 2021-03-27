@@ -89,8 +89,9 @@ def get_places(request):
     :param request:
     :return:
     """
+    id_user = get_user(request).get('id')
     posts_data = Provider('main/sql').exec_by_file('get_places.sql', {
-        'id_user': 1
+        'id_user': id_user
     })
 
     return JsonResponse({'posts': posts_data})
