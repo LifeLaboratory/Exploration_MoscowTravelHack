@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, Http404
 from django.http import JsonResponse
 from main.base.provider import Provider
+from django.views.decorators.csrf import csrf_exempt
 
 
 def get_filter(request):
@@ -58,6 +59,18 @@ def get_filter(request):
     return JsonResponse(data)
 
 
+def get_user(request):
+    """
+    Метод по Hash пользователя возвращает его ID
+    :param request:
+    :return:
+    """
+    posts_data = Provider('main/sql').exec_by_file('get_user.sql', {
+        'sign_hash': request.META.get('HTTP_SESSION')
+    })
+    return posts_data[0]
+
+
 def get_places(request):
     """
     На вход принимаем какие фильтры выбрал пользователь.
@@ -81,3 +94,25 @@ def index(request):
 
 def about(request):
     return render(request, 'about.html')
+
+
+@csrf_exempt
+def insert_statistics(request):
+    if request.method == 'POST':
+        id_user = get_user(request).get('id')
+        Provider('main/sql').exec_by_file('insert_statistics.sql', {
+            'id_user': id_user,
+            'id_posts': request.GET.get('id_posts'),
+            'percent': request.GET.get('percent'),
+            'type': request.GET.get('type') or 'place',
+        })
+    return JsonResponse({'result': 'ok'})
+
+
+@csrf_exempt
+def insert_user(request):
+    if request.method == 'POST':
+        Provider('main/sql').exec_by_file('insert_user.sql', {
+            'sign_hash': request.META.get('HTTP_SESSION')
+        })
+    return JsonResponse({'result': 'ok'})
