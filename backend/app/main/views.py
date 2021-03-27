@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, Http404
 from django.http import JsonResponse
-from backend.app.main.provider import Provider
+from backend.app.main.base.provider import Provider
 
 
 def get_filter(request):
