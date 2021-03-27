@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, Http404
-from django.contrib.auth import authenticate, login, get_user
-from account.processor import is_authenticated_decorator
 from django.http import JsonResponse
+from backend.app.main.provider import Provider
 
 
 def get_filter(request):
@@ -66,49 +65,9 @@ def get_places(request):
     :param request:
     :return:
     """
-    data = {
-        'posts': [
-            {
-                'photo': 'data',
-                'name': 'text',
-                'category': 'text',
-                'star': 'text',
-                'select': True
-            },
-            {
-                'photo': 'data',
-                'name': 'text',
-                'category': 'text',
-                'star': 'text',
-                'select': False
-            },
+    posts_data = Provider('main/sql').exec_by_file('get_places.sql', {})
 
-            {
-                'photo': 'data',
-                'name': 'text',
-                'category': 'text',
-                'star': 'text',
-                'select': False
-            },
-
-            {
-                'photo': 'data',
-                'name': 'text',
-                'category': 'text',
-                'star': 'text',
-                'select': False
-            },
-
-            {
-                'photo': 'data',
-                'name': 'text',
-                'category': 'text',
-                'star': 'text',
-                'select': True
-            }
-        ]
-    }
-    return JsonResponse(data)
+    return JsonResponse({'posts': posts_data})
 
 
 def index(request):
