@@ -1,0 +1,1 @@
+select title from list_seasons
