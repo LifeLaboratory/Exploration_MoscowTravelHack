@@ -153,3 +153,39 @@ def insert_user(request):
 
 def recently_read(request):
     return JsonResponse(RecentlyReadProvider().get_recently_read(), safe=False)
+
+
+@csrf_exempt
+def favorites(request):
+    if request.method == 'POST':
+        id_user = get_user(request).get('id')
+        favorites = Provider('main/sql').exec_by_file('get_favorites.sql', {
+            'id_user': id_user
+        })
+        if favorites:
+            Provider('main/sql').exec_by_file('delete_favorites.sql', {
+                'id_user': id_user
+            })
+        else:
+            Provider('main/sql').exec_by_file('insert_favorites.sql', {
+                'id_user': id_user,
+                'id_posts': request.GET.get('id_posts'),
+                'type': request.GET.get('type') or 'place',
+            })
+    elif request.method == "GET":
+        id_user = get_user(request).get('id')
+        favorites = Provider('main/sql').exec_by_file('get_favorites_posts.sql', {
+            'id_user': id_user
+        })
+        return JsonResponse({'posts': favorites})
+
+    return JsonResponse({'result': 'ok'})
+
+
+@csrf_exempt
+def get_favorites(request):
+    Provider('main/sql').exec_by_file('get_favorites.sql', {
+        'sign_hash': request.META.get('HTTP_SESSION')
+    })
+    return JsonResponse({'result': 'ok'})
+
