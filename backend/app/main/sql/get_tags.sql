@@ -1,1 +1,1 @@
-select title from tags
+select id, title from tags

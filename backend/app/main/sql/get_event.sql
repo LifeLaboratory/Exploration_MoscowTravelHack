@@ -11,3 +11,4 @@ left join places on places.id = events.place_id
 left join event_categories on event_categories.id = events.category_id
 left join tourism_types on tourism_types.id = events.tourism_type_id
 left join list_seasons on list_seasons.id = events.season_id
+limit 50

@@ -7,14 +7,6 @@ from main.recently_read.provider import Provider as RecentlyReadProvider
 import requests
 
 
-def index(request):
-    return render(request, 'index.html', {})
-
-
-def about(request):
-    return render(request, 'about.html')
-
-
 def get_filter(request):
     """
     На вход принимаем какую страницу запрашиваем.
@@ -22,51 +14,6 @@ def get_filter(request):
     :param request:
     :return:
     """
-    # data = {
-    #     'orders': [
-    #         'category',
-    #         'Вид туризма',
-    #         'На расстоянии',
-    #         'Избранные',
-    #         'Сезонность',
-    #         'Теги'
-    #     ],
-    #     'filters': {
-    #         'category': [
-    #             'Ресторан',
-    #             'Памятник',
-    #             'Площадь'
-    #         ],
-    #         'Вид туризма': [
-    #             'Пеший',
-    #             'На автомобиле'
-    #         ],
-    #         'На расстоянии': [
-    #             'Пеший',
-    #             'На автомобиле'
-    #         ],
-    #         'Избранные': True,
-    #         'Теги': [
-    #             'Горные лыжи',
-    #             'Досуг',
-    #             'Экстрим'
-    #         ],
-    #         'Сезонность': [
-    #             'Зима',
-    #             'Весна',
-    #             'Лето',
-    #             'Осень'
-    #         ]
-    #     },
-    #     'default_filters': {
-    #         'category': [
-    #             'Памятник'
-    #         ],
-    #         'Теги': [
-    #             'Экстрим'
-    #         ]
-    #     }
-    # }
     return JsonResponse(FilterProvider().get_filter())
 
 
@@ -85,9 +32,8 @@ def get_user(request):
 def get_places(request):
     """
     На вход принимаем какие фильтры выбрал пользователь.
+    И идентификатор пользователя
     На выходе набор статей с учетом пользовательского опыта
-    :param request:
-    :return:
     """
     id_user = get_user(request).get('id')
     posts_data = Provider('main/sql').exec_by_file('get_places.sql', {
@@ -98,11 +44,21 @@ def get_places(request):
 
 
 def get_trips(request):
+    """
+    На вход принимаем какие фильтры выбрал пользователь.
+    И идентификатор пользователя
+    На выходе набор маршрутов с учетом пользовательского опыта
+    """
     trips_data = Provider('main/sql').exec_by_file('get_trips.sql')
     return JsonResponse({'trips': trips_data})
 
 
 def get_event(request):
+    """
+    На вход принимаем какие фильтры выбрал пользователь.
+    И идентификатор пользователя
+    На выходе набор афиш с учетом пользовательского опыта
+    """
     events_data = Provider('main/sql').exec_by_file('get_event.sql')
     return JsonResponse({'events': events_data})
 
