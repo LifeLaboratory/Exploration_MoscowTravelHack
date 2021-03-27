@@ -1,4 +1,4 @@
-from backend.app.main.recently_read.processor import Processor
+from main.recently_read.processor import Processor
 
 
 class Provider:
