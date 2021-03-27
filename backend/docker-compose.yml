@@ -5,14 +5,16 @@ services:
     build: ./app
     container_name: web
     restart: always
-    volumes:
-      - ./app/:/app
     ports:
       - 8000:8000
+    expose:
+      - 8000
     env_file:
       - .env.dev
     depends_on:
       - database
+    volumes:
+      - ./static:/app/app/static
       
   database:
     image: postgres:13.0
@@ -26,13 +28,15 @@ services:
       - 5432:5432
       
   nginx:
-      build: ./nginx
-      restart: always
-      container_name: nginx
-      ports:
-        - 7777:80
-      depends_on:
-        - web
+    build: ./nginx
+    restart: always
+    container_name: nginx
+    volumes:
+      - ./static:/static
+    ports:
+      - 80:80
+    depends_on:
+      - web
         
   grafana:
     image: grafana/grafana
@@ -41,9 +45,8 @@ services:
       - 3000
     ports:
       - 3000:3000
-    environment:
-      GF_SERVER_ROOT_URL: http://grafana:3000
-      GF_SECURITY_ADMIN_PASSWORD: PINLOX!@#
+    env_file:
+      - .env.dev
     
   clickhouse:
     image: yandex/clickhouse-server
