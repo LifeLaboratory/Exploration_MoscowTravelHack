@@ -1,4 +1,4 @@
-from backend.app.main.base.provider import Provider
+from main.base.provider import Provider
 
 
 class Processor:
