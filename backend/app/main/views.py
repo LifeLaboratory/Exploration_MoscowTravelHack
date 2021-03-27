@@ -71,6 +71,16 @@ def get_places(request):
     return JsonResponse({'posts': posts_data})
 
 
+def get_trips(request):
+    trips_data = Provider('main/sql').exec_by_file('get_trips.sql')
+    return JsonResponse({'trips': trips_data})
+
+
+def get_event(request):
+    events_data = Provider('main/sql').exec_by_file('get_event.sql')
+    return JsonResponse({'events': events_data})
+
+
 def get_google_info():
     """Метод запрашивает рейтинги мест в google по координатам мест"""
     places = Provider('main/sql').exec_by_file('get_places.sql', {})
