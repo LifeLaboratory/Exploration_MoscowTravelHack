@@ -2,6 +2,16 @@ from django.shortcuts import render, redirect, Http404
 from django.http import JsonResponse
 from main.base.provider import Provider
 from backend.app.main.filter.provider import Provider as FilterProvider
+import requests
+
+
+def index(request):
+    return render(request, 'index.html', {})
+
+
+def about(request):
+    return render(request, 'about.html')
+
 
 def get_filter(request):
     """
@@ -80,9 +90,23 @@ def get_event(request):
     return JsonResponse({'events': events_data})
 
 
-def index(request):
-    return render(request, 'index.html', {})
-
-
-def about(request):
-    return render(request, 'about.html')
+def get_google_info():
+    """Метод запрашивает рейтинги мест в google по координатам мест"""
+    places = Provider('main/sql').exec_by_file('get_places.sql', {})
+    google_key = ''
+    for place in places:
+        try:
+            id_place = place['id']
+            lat = place['latitude']
+            long = place['longitude']
+            r = requests.get(f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat},{long}&radius=100&key={google_key}')
+            try:
+                rating = r.json()['results'][0]['rating']
+            except:
+                rating = 0
+            Provider('main/sql').exec_by_file('insert_ratings.sql', {
+                'id': id_place,
+                'rating': rating,
+            })
+        except:
+            pass
