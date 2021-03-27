@@ -129,7 +129,7 @@ class Provider:
                     if alert in v:
                         args[k] = args[k].replace(alert, '')
         query = query.format(**args)
-        if os.environ["IS_DEBUG"]:
+        if os.environ.get("IS_DEBUG"):
             print(query)
         return Provider._exec(query)
 
