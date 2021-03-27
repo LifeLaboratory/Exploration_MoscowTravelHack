@@ -1,7 +1,16 @@
 from django.shortcuts import render, redirect, Http404
 from django.http import JsonResponse
 from main.base.provider import Provider
+from backend.app.main.filter.provider import Provider as FilterProvider
 import requests
+
+
+def index(request):
+    return render(request, 'index.html', {})
+
+
+def about(request):
+    return render(request, 'about.html')
 
 
 def get_filter(request):
@@ -11,52 +20,52 @@ def get_filter(request):
     :param request:
     :return:
     """
-    data = {
-        'orders': [
-            'category',
-            'Вид туризма',
-            'На расстоянии',
-            'Избранные',
-            'Сезонность',
-            'Теги'
-        ],
-        'filters': {
-            'category': [
-                'Ресторан',
-                'Памятник',
-                'Площадь'
-            ],
-            'Вид туризма': [
-                'Пеший',
-                'На автомобиле'
-            ],
-            'На расстоянии': [
-                'Пеший',
-                'На автомобиле'
-            ],
-            'Избранные': True,
-            'Теги': [
-                'Горные лыжи',
-                'Досуг',
-                'Экстрим'
-            ],
-            'Сезонность': [
-                'Зима',
-                'Весна',
-                'Лето',
-                'Осень'
-            ]
-        },
-        'default_filters': {
-            'category': [
-                'Памятник'
-            ],
-            'Теги': [
-                'Экстрим'
-            ]
-        }
-    }
-    return JsonResponse(data)
+    # data = {
+    #     'orders': [
+    #         'category',
+    #         'Вид туризма',
+    #         'На расстоянии',
+    #         'Избранные',
+    #         'Сезонность',
+    #         'Теги'
+    #     ],
+    #     'filters': {
+    #         'category': [
+    #             'Ресторан',
+    #             'Памятник',
+    #             'Площадь'
+    #         ],
+    #         'Вид туризма': [
+    #             'Пеший',
+    #             'На автомобиле'
+    #         ],
+    #         'На расстоянии': [
+    #             'Пеший',
+    #             'На автомобиле'
+    #         ],
+    #         'Избранные': True,
+    #         'Теги': [
+    #             'Горные лыжи',
+    #             'Досуг',
+    #             'Экстрим'
+    #         ],
+    #         'Сезонность': [
+    #             'Зима',
+    #             'Весна',
+    #             'Лето',
+    #             'Осень'
+    #         ]
+    #     },
+    #     'default_filters': {
+    #         'category': [
+    #             'Памятник'
+    #         ],
+    #         'Теги': [
+    #             'Экстрим'
+    #         ]
+    #     }
+    # }
+    return JsonResponse(FilterProvider().get_filter())
 
 
 def get_places(request):
