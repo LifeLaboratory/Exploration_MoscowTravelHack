@@ -1,0 +1,14 @@
+{% extends "templates/base.html" %}
+{% load static %}
+{% block title %}Вход{% endblock %}
+{% block links %}<link href={% static 'signin.css' %} rel="stylesheet">{% endblock %}
+{% block content %}
+<form class="form-signin" method="post">
+      <img src={% static 'life_team_logo.jpg' %} alt="" width="150" height="150" class="rounded-circle">
+      <h1 class="h3 mb-3 font-weight-normal">Пожалуйста войдите</h1>
+    {{ form.username }}
+    {{ form.password }}
+        {% csrf_token %}
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+    </form>
+{% endblock %}
