@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, Http404
 from django.http import JsonResponse
 from main.base.provider import Provider
 from main.filter.provider import Provider as FilterProvider
+from main.recently_read.provider import Provider as RecentlyReadProvider
 import requests
 
 
@@ -112,3 +113,7 @@ def get_google_info():
             })
         except:
             pass
+
+
+def recently_read(request):
+    return JsonResponse(RecentlyReadProvider().get_recently_read(), safe=False)
