@@ -26,6 +26,10 @@ def get_user(request):
     posts_data = Provider('main/sql').exec_by_file('get_user.sql', {
         'sign_hash': request.META.get('HTTP_SESSION')
     })
+    if not posts_data:
+        posts_data = Provider('main/sql').exec_by_file('insert_user.sql', {
+            'sign_hash': request.META.get('HTTP_SESSION')
+        })
     return posts_data[0]
 
 
