@@ -40,3 +40,8 @@ class Processor:
     def get_seasons():
         seasons = Provider('main/sql').exec_by_file('get_list_seasons.sql')
         return [season.get('title') for season in seasons]
+
+    @staticmethod
+    def get_cities():
+        seasons = Provider('main/sql').exec_by_file('get_cities.sql')
+        return [season.get('title') for season in seasons]

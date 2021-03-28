@@ -36,8 +36,34 @@ def get_places(request):
     На выходе набор статей с учетом пользовательского опыта
     """
     id_user = get_user(request).get('id')
+
+    cities_filter = request.GET.get('Город')
+    cities_condition = ''
+    if cities_filter:
+        cities_condition = f"and cities.title = '{cities_filter}'"
+
+    category_filter = request.GET.get('Категории')
+    category_condition = ''
+    if category_filter:
+        category_condition = f"and place_categories.title = '{category_filter}'"
+
+    tourism_filter = request.GET.get('Вид туризма')
+    tourism_condition = ''
+    if tourism_filter:
+        tourism_condition = f"and tourism_types.title = '{tourism_filter}'"
+
+    season_filter = request.GET.get('Сезонность')
+    season_condition = ''
+    if season_filter:
+        season_condition = f"and tourism_types.title = '{season_filter}'"
+
+
+
     posts_data = Provider('main/sql').exec_by_file('get_places.sql', {
-        'id_user': id_user
+        'id_user': id_user,
+        'cities_condition': cities_condition,
+        'category_condition': cities_condition,
+        'tourism_condition': tourism_condition
     })
 
     return JsonResponse({'posts': posts_data})

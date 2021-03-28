@@ -47,9 +47,9 @@ get_posts as (
   from
     places p
   left join relative_posts rp on rp.place_id = p.id
-  left join cities on p.city_id = cities.id
-left join place_categories on p.category_id = place_categories.id
-left join tourism_types on p.tourism_type_id = tourism_types.id
+  join cities on p.city_id = cities.id {cities_condition}
+  join place_categories on p.category_id = place_categories.id {category_condition}
+  join tourism_types on p.tourism_type_id = tourism_types.id {tourism_condition}
 )
 , tags as (
 select

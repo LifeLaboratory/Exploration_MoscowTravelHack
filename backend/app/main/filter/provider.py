@@ -4,13 +4,15 @@ from main.filter.processor import Processor
 class Provider:
     @staticmethod
     def get_filter():
-        orders = Processor().get_orders()
-        category = Processor().get_categories()
-        distance = Processor().get_distance_types()
-        favorite = Processor().get_favorite()
-        seasons = Processor().get_seasons()
-        tourism_type = Processor().get_trip_types()
-        tags = Processor().get_tags()
+        processor = Processor()
+        orders = processor.get_orders()
+        category = processor.get_categories()
+        distance = processor.get_distance_types()
+        favorite = processor.get_favorite()
+        seasons = processor.get_seasons()
+        tourism_type = processor.get_trip_types()
+        tags = processor.get_tags()
+        cities = processor.get_cities()
         data = {
             'orders': orders,
             'filters': {
@@ -19,14 +21,15 @@ class Provider:
                 'На расстоянии': distance,
                 'Избранные': favorite,
                 'Теги': tags,
-                'Сезонность': seasons
+                'Сезонность': seasons,
+                'Город': cities
             },
             'default_filters': {
                 'category': [
                     'Памятник'
                 ],
-                'Теги': [
-                    'Экстрим'
+                'Город': [
+                    'Мурманск'
                 ]
             }
         }
