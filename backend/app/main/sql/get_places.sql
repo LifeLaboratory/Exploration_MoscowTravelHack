@@ -28,7 +28,7 @@ with user_posts as (
    , false as user_stories
   from
     user_history uh
-  where (table count_user_story) is not null
+  where (table count_user_story) = 0
 
 ),
 rank_tags as (
