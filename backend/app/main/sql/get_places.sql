@@ -52,6 +52,7 @@ rank_tags as (
 
 relative_posts as (
   select
+  distinct
     place_id
     , rt.tag_index
     , tag_id
