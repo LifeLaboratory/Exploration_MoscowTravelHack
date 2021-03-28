@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('filters/', views.get_filter, name='Получение списка фильтров'),
     path('posts/', views.get_places, name='Получение списка мест'),
+    path('posts/<int:post_id>', views.get_current_places, name='Получение конкретного места'),
     path('statistics/', views.insert_statistics, name='Записать статистику'),
     path('user/', views.insert_user, name='Записать пользователя'),
     path('favorites/', views.favorites, name='Записать в избранное'),

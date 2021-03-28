@@ -44,6 +44,20 @@ def get_tags_by_user(request):
     return JsonResponse({'tags': [post['title'] for post in posts_data]})
 
 
+def get_current_places(request, post_id):
+    """
+    Метод для получения данных по конкретному месту
+    :param request:
+    :param posts_id:
+    :return:
+    """
+
+    posts_data = Provider('main/sql').exec_by_file('get_place.sql', {
+        'post_id': post_id
+    })
+    return JsonResponse({'posts': posts_data[0]})
+
+
 def get_places(request):
     """
     На вход принимаем какие фильтры выбрал пользователь.
@@ -71,8 +85,6 @@ def get_places(request):
     season_condition = ''
     if season_filter:
         season_condition = f"and tourism_types.title = '{season_filter}'"
-
-
 
     posts_data = Provider('main/sql').exec_by_file('get_places.sql', {
         'id_user': id_user,
