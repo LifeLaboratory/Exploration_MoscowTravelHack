@@ -27,6 +27,22 @@ export function getPosts() {
         })
 }
 
+export function getPostsWithFilters(filter) {
+    return axios.get(`http://213.232.228.115/posts/?` + filter,
+        {
+            headers: {
+                session: localStorage.getItem('session')
+            }
+        })
+        .then(function (response) {
+            return response.data
+        })
+        .catch(function (error) {
+            console.log(error)
+            return false
+        })
+}
+
 export function getPost(id) {
     return axios.get(`http://213.232.228.115/posts/` + id,
         {

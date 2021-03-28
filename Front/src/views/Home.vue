@@ -24,15 +24,15 @@
         </a-row>
         <a-row style="padding-top: 16px;">
           <!--          <a-select style="float: left; margin-right: 25px; margin-top: 25px; border: 1px solid #60d7f2; width: 440px; font-size: 18pt;" @change="handleChange" v-for="(value, key, index) in this.filters" :defaultValue="this.default_filters === undefined || this.default_filters[key] === undefined  ? key : this.default_filters[key]">-->
-          <a-select style="float: left; margin-right: 25px; margin-top: 25px; border: 1px solid #60d7f2; width: 440px; font-size: 18pt;" @change="handleChange" v-for="(value, key, index) in this.filters" :defaultValue="key">
-            <a-select-option value="val" v-for="val in value">
+          <a-select style="float: left; margin-right: 25px; margin-top: 25px; border: 1px solid #60d7f2; width: 440px; font-size: 18pt;" @change="handleChange(key, $event)" v-for="(value, key, index) in this.filters" :defaultValue="key">
+            <a-select-option :value="val" v-for="val in value">
               {{ val }}
             </a-select-option>
           </a-select>
         </a-row>
         <a-row style="padding-top: 16px;">
-          <a-button style="width: 48%; margin-right: 2%; font-size: 18pt; height: 70px; border-radius: 5px; padding:10px; background-color: #60d7f2;">Сбросить</a-button>
-          <a-button style="width: 48%; margin-left: 2%; font-size: 18pt; height: 70px; border-radius: 5px; background-color: #133748; color: white;">Применить</a-button>
+          <a-button @click="clearFilter" style="width: 48%; margin-right: 2%; font-size: 18pt; height: 70px; border-radius: 5px; padding:10px; background-color: #60d7f2;">Сбросить</a-button>
+          <a-button @click="filter" style="width: 48%; margin-left: 2%; font-size: 18pt; height: 70px; border-radius: 5px; background-color: #133748; color: white;">Применить</a-button>
         </a-row>
         <a-row style="background-color: #e6e9eb; padding: 36px; margin-top: 24px;">
           <a-card hoverable style="width: 400px; min-height: 500px; max-height: 500px; display: inline-block; float: left; margin: 25px;" v-for="post in this.posts">
@@ -69,7 +69,7 @@
 <script>
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { Button } from 'ant-design-vue';
-import {getFilters, getPosts} from "../api/auth";
+import {getFilters, getPosts, getPostsWithFilters} from "../api/auth";
 
 export default {
   name: 'Home',
@@ -81,11 +81,32 @@ export default {
       filters: [],
       default_filters: [],
       posts: [],
+      strFilter: ""
     }
   },
   methods: {
     toAuth(e) {
       this.$router.push('/auth')
+    },
+    clearFilter() {
+      this.strFilter = "";
+      (async () => {
+        this.posts = (await getPosts()).posts;
+        console.log(this.posts)
+      })();
+    },
+    filter(e) {
+      console.log(e);
+      console.log(this.strFilter);
+      (async () => {
+        this.posts = (await getPostsWithFilters(this.strFilter)).posts;
+        console.log(this.posts)
+      })();
+    },
+    handleChange(value, node) {
+      console.log(value);
+      console.log(node);
+      this.strFilter += value + "=" + node + "&"
     }
   },
   mounted() {
