@@ -81,6 +81,12 @@ export default {
 
     (async () => {
       this.item = (await getPost(this.$route.query.id)).posts;
+
+      sendScroll({
+        "id_post": this.item.id,
+        "percent": 0,
+        "type": "place"
+      })
       console.log(this.item);
       var check0 = false;
       var check30 = false;
@@ -96,7 +102,7 @@ export default {
         if (perc > 0 && perc < 20 && check0 === false) {
           check0 = true;
           sendScroll({
-            "id_post": post.id,
+            "id_post": this.item.id,
             "percent": 0,
             "type": "place"
           })
@@ -104,7 +110,7 @@ export default {
         if (perc > 20 && perc < 50 && check30 === false) {
           check30 = true;
           sendScroll({
-            "id_post": post.id,
+            "id_post": this.item.id,
             "percent": 30,
             "type": "place"
           })
@@ -112,7 +118,7 @@ export default {
         if (perc > 60 && perc < 90 && check70 === false) {
           check70 = true;
           sendScroll({
-            "id_post": post.id,
+            "id_post": this.item.id,
             "percent": 70,
             "type": "place"
           })
@@ -120,7 +126,7 @@ export default {
         if (perc > 90  && check100 === false) {
           check100 = true;
           sendScroll({
-            "id_post": post.id,
+            "id_post": this.item.id,
             "percent": 100,
             "type": "place"
           })
