@@ -80,4 +80,4 @@ order by
   , tag_index          -- По интересам пользователя
   , google_rating desc -- По оценке мировой
   , created_at desc    -- Даем свежие
---limit 50
+limit 50

@@ -8,3 +8,4 @@ select
 from unnest(
 array{titles}
 )
+returning *
