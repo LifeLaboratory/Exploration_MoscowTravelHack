@@ -43,7 +43,7 @@ rank_tags as (
       from
         place_tag
       where
-        place_id = any(array(select id_post from user_posts where success is true))
+        place_id = any(array(select distinct id_post from user_posts where success is true))
       group by tag_id
     ) as get_post_tegs
     order by 2
@@ -52,14 +52,15 @@ rank_tags as (
 
 relative_posts as (
   select
+  distinct
     place_id
-    , rt.tag_index
-    , tag_id
+     , min(rt.tag_index) tag_index
   from
     place_tag pt
   join rank_tags rt using(tag_id)
   where
-   not(place_id = any(array(select id_post from user_posts where user_stories is true)))
+   not(place_id = any(array(select distinct id_post from user_posts where user_stories is true)))
+  group by place_id
 
 ),
 get_posts as (
@@ -105,4 +106,4 @@ order by
   , tag_index          -- По интересам пользователя
   , google_rating desc -- По оценке мировой
   , created_at desc    -- Даем свежие
-limit 50
+limit 100
