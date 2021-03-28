@@ -126,21 +126,28 @@ def recently_read(request):
 
 
 @csrf_exempt
+def delete_favorite(request):
+    if request.method == 'POST':
+        id_user = get_user(request).get('id')
+        Provider('main/sql').exec_by_file('delete_favorites.sql', {
+            'id_user': id_user,
+            'favoritable_id': request.POST.get('id_post')
+        })
+    return JsonResponse({'result': 'ok'})
+
+@csrf_exempt
 def favorites(request):
     if request.method == 'POST':
         id_user = get_user(request).get('id')
-        favorites = Provider('main/sql').exec_by_file('get_favorites.sql', {
-            'id_user': id_user
+        exist = Provider('main/sql').exec_by_file('get_favorites_favoritable_id.sql', {
+            'id_user': id_user,
+            'favoritable_id': request.POST.get('id_post'),
         })
-        if favorites:
-            Provider('main/sql').exec_by_file('delete_favorites.sql', {
-                'id_user': id_user
-            })
-        else:
+        if not exist:
             Provider('main/sql').exec_by_file('insert_favorites.sql', {
                 'id_user': id_user,
-                'id_posts': request.GET.get('id_posts'),
-                'type': request.GET.get('type') or 'place',
+                'id_post': request.POST.get('id_post'),
+                'type': request.POST.get('type') or 'place',
             })
     elif request.method == "GET":
         id_user = get_user(request).get('id')

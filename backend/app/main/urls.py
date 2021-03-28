@@ -7,6 +7,7 @@ urlpatterns = [
     path('statistics/', views.insert_statistics, name='Записать статистику'),
     path('user/', views.insert_user, name='Записать пользователя'),
     path('favorites/', views.favorites, name='Записать в избранное'),
+    path('favorites/delete', views.delete_favorite, name='удалить запись из избранного'),
     path('event/', views.get_event, name='Получение события'),
     path('recently_read/', views.recently_read, name='Недавно прочитанные посты'),
 ]
