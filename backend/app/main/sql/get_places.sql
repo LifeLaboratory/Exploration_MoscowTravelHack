@@ -54,13 +54,13 @@ relative_posts as (
   select
   distinct
     place_id
-    , rt.tag_index
-    , tag_id
+     , min(rt.tag_index) tag_index
   from
     place_tag pt
   join rank_tags rt using(tag_id)
   where
    not(place_id = any(array(select distinct id_post from user_posts where user_stories is true)))
+  group by place_id
 
 ),
 get_posts as (
