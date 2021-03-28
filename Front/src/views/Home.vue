@@ -35,16 +35,12 @@
           <a-button style="width: 48%; margin-left: 2%; font-size: 18pt; height: 70px; border-radius: 5px; background-color: #133748; color: white;">Применить</a-button>
         </a-row>
         <a-row style="background-color: #e6e9eb; padding: 36px; margin-top: 24px;">
-          <a-card hoverable style="width: 400px; height: 500px; display: inline-block; float: left; margin: 25px;" v-for="post in this.posts">
-            <img slot="cover" alt="example" src="../assets/test.jpeg"/>
+          <a-card hoverable style="width: 400px; min-height: 500px; max-height: 500px; display: inline-block; float: left; margin: 25px;" v-for="post in this.posts">
+            <img slot="cover" alt="example" :src="post.images" style="max-height: 250px; object-fit: contain;"/>
             <template slot="actions" class="ant-card-actions">
-              <a-anchor-link
-                  href="https://www.google.com/maps/place/@post.latitude,post.longitude,17z"
-                  title="Basic demo with Target"
-                  target="_blank"
-              />
+              <a :href="'/item?id=' + post.id">Подробнее</a>
             </template>
-            <a-card-meta :title="post.title" :description="post.description.substring(0, 220) + '...'" style="float: left; text-align: left; font-size: 14pt; max-width: 370px;"></a-card-meta>
+            <a-card-meta :title="post.title" :description="post.description.substring(0, 150) + '...'" style="float: left; text-align: left; font-size: 14pt; max-width: 370px;"></a-card-meta>
           </a-card>
         </a-row>
       </a-col>
@@ -116,14 +112,6 @@ export default {
       this.posts = (await getPosts()).posts;
       console.log(this.posts)
     })();
-
-    window.addEventListener('scroll', function(e){
-      var scrollPos = window.scrollY
-      var winHeight = window.innerHeight
-      var docHeight = document.documentElement.scrollHeight
-      var perc = 100 * scrollPos / (docHeight - winHeight)
-      console.log(perc);
-    })
   }
 }
 </script>
