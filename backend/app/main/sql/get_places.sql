@@ -5,7 +5,7 @@ with user_posts as (
   from
     user_history
   where
-    id_user = 1
+    id_user = {id_user}
 ),
 rank_tags as (
   select
