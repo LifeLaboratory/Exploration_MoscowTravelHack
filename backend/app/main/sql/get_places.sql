@@ -43,7 +43,7 @@ rank_tags as (
       from
         place_tag
       where
-        place_id = any(array(select id_post from user_posts where success is true))
+        place_id = any(array(select distinct id_post from user_posts where success is true))
       group by tag_id
     ) as get_post_tegs
     order by 2
@@ -59,7 +59,7 @@ relative_posts as (
     place_tag pt
   join rank_tags rt using(tag_id)
   where
-   not(place_id = any(array(select id_post from user_posts where user_stories is true)))
+   not(place_id = any(array(select distinct id_post from user_posts where user_stories is true)))
 
 ),
 get_posts as (
