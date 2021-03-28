@@ -10,4 +10,5 @@ urlpatterns = [
     path('favorites/delete', views.delete_favorite, name='удалить запись из избранного'),
     path('event/', views.get_event, name='Получение события'),
     path('recently_read/', views.recently_read, name='Недавно прочитанные посты'),
+    path('user_tags/', views.get_tags_by_user, name='Текущие интересы пользователя'),
 ]

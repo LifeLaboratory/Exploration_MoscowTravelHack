@@ -29,6 +29,17 @@ def get_user(request):
     return posts_data[0]
 
 
+def get_tags_by_user(request):
+    """
+    Метод по Hash пользователя возвращает список интересов пользователя
+    """
+    id_user = get_user(request).get('id')
+    posts_data = Provider('main/sql').exec_by_file('get_tags_by_user.sql', {
+        'id_user': id_user
+    })
+    return JsonResponse({'tags': [post['title'] for post in posts_data]})
+
+
 def get_places(request):
     """
     На вход принимаем какие фильтры выбрал пользователь.
