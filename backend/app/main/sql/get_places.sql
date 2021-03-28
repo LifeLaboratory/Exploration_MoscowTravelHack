@@ -1,11 +1,35 @@
 with user_posts as (
+  with user_stor as (
+    select
+     id_post
+     , case when percent > 60 then True else False end success
+     , true as user_stories
+    from
+      user_history
+    where
+      id_user = {id_user}
+  ),
+   count_user_story as (
+    select
+      count(1) as count_story
+    from
+      user_stor
+  )
+  select
+    id_post
+    , success
+    , user_stories
+  from
+    user_stor
+  union
   select
    id_post
    , case when percent > 60 then True else False end success
+   , false as user_stories
   from
-    user_history
-  where
-    id_user = {id_user}
+    user_history uh
+  where (table count_user_story) is not null
+
 ),
 rank_tags as (
   select
@@ -35,7 +59,8 @@ relative_posts as (
     place_tag pt
   join rank_tags rt using(tag_id)
   where
-    not(place_id = any(array(select id_post from user_posts)))
+   not(place_id = any(array(select id_post from user_posts where user_stories is true)))
+
 ),
 get_posts as (
   select
