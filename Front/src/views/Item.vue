@@ -18,8 +18,8 @@
         </a-row>
         <a-row style="background-color: #e6e9eb; padding: 36px; margin-top: 24px;">
           <img slot="cover" alt="example" :src="this.item.images"/>
-          <img :src="this.item.images" style="width: 100%" /><br />
-          <p style="float: left; font-size: 24pt; margin-top: 40px; text-align: left;">
+          <img :src="this.item.images" style="height: 450px;" /><br />
+          <p style="float: left; font-size: 24pt; margin-top: 40px; text-align: left;" ref="textbody">
             {{this.item.description}}
           </p>
         </a-row>
@@ -92,6 +92,15 @@ export default {
       var check30 = false;
       var check70 = false;
       var check100 = false;
+
+      var hasVerticalScrollbar = this.item.len > 1000;
+      if (hasVerticalScrollbar === false) {
+        sendScroll({
+          "id_post": this.item.id,
+          "percent": 100,
+          "type": "place"
+        })
+      }
 
       window.addEventListener('scroll', function(e){
         var scrollPos = window.scrollY
