@@ -4,6 +4,7 @@ from main.base.provider import Provider
 from django.views.decorators.csrf import csrf_exempt
 from main.filter.provider import Provider as FilterProvider
 from main.recently_read.provider import Provider as RecentlyReadProvider
+from json import loads
 import requests
 
 
@@ -120,25 +121,25 @@ def get_event(request):
 def insert_statistics(request):
     if request.method == 'POST':
         id_user = get_user(request).get('id')
-
+        params = loads(request.body.decode())
         exists = Provider('main/sql').exec_by_file('select_statistics.sql', {
             'id_user': id_user,
-            'id_post': request.POST.get('id_post'),
+            'id_post': params.get('id_post'),
         })
         if exists:
             Provider('main/sql').exec_by_file('update_statistics.sql', {
                 'id_user': id_user,
-                'id_post': request.POST.get('id_post'),
-                'percent': request.POST.get('percent'),
-                'type': request.POST.get('type') or 'place',
+                'id_post': params.get('id_post'),
+                'percent': params.get('percent'),
+                'type': params.get('type') or 'place',
                 'id_history': exists[0]['id']
             })
         else:
             Provider('main/sql').exec_by_file('insert_statistics.sql', {
                 'id_user': id_user,
-                'id_post': request.POST.get('id_post'),
-                'percent': request.POST.get('percent'),
-                'type': request.POST.get('type') or 'place',
+                'id_post': params.get('id_post'),
+                'percent': params.get('percent'),
+                'type': params.get('type') or 'place',
             })
     return JsonResponse({'result': 'ok'})
 
